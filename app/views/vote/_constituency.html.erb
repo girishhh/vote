@@ -1,0 +1,28 @@
+<%=select_tag 'const', options_for_select(["select"]+@places),:class=>"btn btn-primary dropdown-toggle"%>
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $("#const").on("change",function(e){
+            if($(this).val()!="select"){
+                $("#main_container").fadeOut("slow",function(){
+                    $("#spinner").show();
+                });
+                $.ajax({
+                "url": "get_const_places",
+                "type": "get",
+                "data": {"place_name": $(this).val(),"district_name": $("#distr").val(),after_vote: false},
+                success: function(data){                    
+                    $("#main_container").fadeIn(function(){
+                        $("#spinner").hide();           
+                        $("#details").html(data);
+                    });                    
+                    }
+                });
+            }else{
+                $("#details").html("");
+            }   
+        });    
+
+    });
+
+</script>

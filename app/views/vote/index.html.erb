@@ -1,0 +1,57 @@
+<div id="main_container">
+
+<div class="container">
+
+	<div class="row">
+	  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" align="center">	  		
+	  	<%=select_tag 'distr', options_for_select( ["select"]+District.pluck(:name) ),:class=>"btn btn-primary dropdown-toggle"%>
+	  </div>
+
+	  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"  id="places" align="center">	  	
+	  </div>
+	</div>	
+</div>
+
+<div class="container" style="margin-top: 80px;">
+	<div class="row">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" align="center" id="details">
+		
+		</div>
+	</div>
+</div>
+
+</div>
+
+<%=render partial: "pop_up"%>
+<div id="spinner" style="display: none;">
+	<%=render partial: "spinner"%>
+</div>
+
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		
+
+		$("#distr").on("change",function(e){
+			$("#details").html("");
+			$("#places").html("");
+			if($(this).val()!="select"){
+				$("#main_container").fadeOut("slow",function(){
+					$("#spinner").show();
+				});				
+				$.ajax({
+				"url": "get_constituencies",
+				"type": "get",
+				"data": {"district": $(this).val()},
+				success: function(data){												
+					$("#main_container").fadeIn(function(){
+						$("#spinner").hide();
+						$("#places").html(data);						
+					});
+					}
+				});
+			}		
+		});
+
+	});
+</script>

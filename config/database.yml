@@ -1,0 +1,13 @@
+development:
+  adapter: mysql  
+  database: vote
+  host: localhost
+  username: root
+  password: password  
+
+production:
+  adapter: mysql  
+  database: vote
+  host: localhost
+  username: root
+  password: password
